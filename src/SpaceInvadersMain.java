@@ -53,8 +53,9 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         background = Toolkit.getDefaultToolkit().getImage(getClass().getResource("back.png"));
         life       = Toolkit.getDefaultToolkit().getImage(getClass().getResource("lives.gif"));
         // Timer erzeugen
-        timer = new Timer(2000, this);
-        timer.setRepeats(false);
+        //timer = new Timer(2000, this);
+        timer = new Timer(random.nextInt(500) + 300, this);
+        //timer.setRepeats(false);
         timer.start();
         BossTimer = new Timer(50000, new ActionListener(){
             @Override
@@ -261,15 +262,16 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
 
     }
 
-    @Override
+   /* @Override
     public void actionPerformed(ActionEvent e){
         actionPerformed1(e);
-    }
-    public void actionPerformed1(ActionEvent e)
+    }*/
+
+    public void actionPerformed(ActionEvent e)
     {
         if (player.lives> 0 && running) {
             aliens.addElement(new NormalAlien(random.nextInt(1200)+300, 20));
-            Timer randomTimer = new Timer(random.nextInt(500) + 300, new ActionListener() {
+            /*Timer randomTimer = new Timer(random.nextInt(500) + 300, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     actionPerformed1(e);
@@ -277,7 +279,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                 }
             });
             randomTimer.setRepeats(false);
-            randomTimer.start();
+            randomTimer.start();*/
         }
 
 
@@ -349,6 +351,8 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             x.draw(g, this);
         }
     }
+
+
 }
 /*import javax.swing.*;
 import java.awt.*;
