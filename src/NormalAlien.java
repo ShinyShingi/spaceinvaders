@@ -7,7 +7,7 @@ public class NormalAlien extends Alien{
 
     int getMaxHP(){return level;}
     int getSpeed(){ Random rand = new Random();
-        int speed = rand.nextInt(5-1)+1;
+        int speed = rand.nextInt((5+level)-1)+1;
         return speed;
     }
     int getSpriteSize(){return 30;}

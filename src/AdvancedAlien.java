@@ -9,7 +9,7 @@ public class AdvancedAlien extends Alien {
     }
     int getSpeed() {
         Random rand = new Random();
-        int speed = rand.nextInt(6-1)+1;
+        int speed = rand.nextInt((6+level)-1)+1;
         return speed;
     }
     int getSpriteSize() {
