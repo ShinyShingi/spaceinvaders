@@ -134,7 +134,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                     if (alien.intersects(xd) && alien.isAlive()) {
                         alien.applyDamage();
                         shots.remove(xd);
-                        System.out.println(alien.hp);
+                       System.out.println(alien.hp);
                         if (!alien.isAlive()) {
 
                             alien.playDeathAnimation();
@@ -167,6 +167,8 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                             score++;
                             if(score%100 == 0) {
                                 player.lives++;
+                                Alien.level++;
+
                             }
 
                         }
@@ -235,11 +237,13 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         String livesString = Integer.toString(player.lives);
         g.setColor(Color.WHITE);
         g.drawString(livesString, 40, 125);
+        g.drawString("LEVEL: " + Alien.level, 40, 200);
         if (player.lives <= 0){
             g.setFont(g.getFont().deriveFont(Font.BOLD, 120));
             g.setColor(Color.RED);
             g.drawString("Game Over", 400, 300);
             g.drawString("Score: " +scoreString, 400,600);
+            g.drawString("LEVEL: " + Alien.level, 400, 500);
             g.setFont(g.getFont().deriveFont(Font.PLAIN,60));
             g.setColor(Color.WHITE);
             g.drawString("Press SPACE, to start again", 300, 700);

@@ -3,7 +3,7 @@ public class NormalAlien extends Alien{
         super(x,y);
     }
 
-    int getMaxHP(){return 1;}
+    int getMaxHP(){return level;}
     int getSpeed(){return 5;}
     int getSpriteSize(){return 30;}
     String getSprite(){return "alien1.gif";}

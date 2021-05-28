@@ -3,7 +3,7 @@ public class AdvancedAlien extends Alien {
         super(x, y);
     }
     int getMaxHP() {
-        return 3;
+        return level + 1;
     }
     int getSpeed() {
         return 6;
