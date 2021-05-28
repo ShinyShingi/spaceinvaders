@@ -56,7 +56,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         timer = new Timer(2000, this);
         timer.setRepeats(false);
         timer.start();
-        BossTimer = new Timer(5000, new ActionListener(){
+        BossTimer = new Timer(50000, new ActionListener(){
             @Override
             public void actionPerformed (ActionEvent Boss)
             {
