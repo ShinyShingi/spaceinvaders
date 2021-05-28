@@ -31,7 +31,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
     Image boom;
     Image life;
     int score;
-    boolean isPaused = false;
+    private volatile boolean running = true;
     public static void main(String[] args)
     {
         new SpaceInvadersMain();
@@ -60,7 +60,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             @Override
             public void actionPerformed (ActionEvent Boss)
             {
-                if (player.lives> 0 && !isPaused)
+                if (player.lives> 0 && !running)
                     aliens.addElement(new BossAlien(random.nextInt(1300)+300, 20));
 
             }
@@ -70,7 +70,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             @Override
             public void actionPerformed (ActionEvent adv)
             {
-                if (player.lives> 0 && !isPaused)
+                if (player.lives> 0 && running)
                     aliens.addElement(new AdvancedAlien(random.nextInt(1300)+300, 20));
 
             }
@@ -91,10 +91,10 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
 
         long cd = (long)(1.0/60.0*1000);
         while(true) {
-            if (isPaused) {
+            if (!running) {
                 continue;
             }
-            System.out.println("YA TUT");
+
             long start = System.currentTimeMillis();
             player.move();
 
@@ -205,6 +205,8 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
 
         }
 
+
+
     }
 
     protected void paintComponent(Graphics g)
@@ -247,6 +249,12 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             g.setColor(Color.WHITE);
             g.drawString("Press SPACE, to start again", 300, 700);
         }
+        if (!running) {
+            g.setFont(g.getFont().deriveFont(Font.BOLD, 260));
+            g.setColor(Color.WHITE);
+            g.drawString("PAUSE", 230, 500);
+
+        }
 
 
 
@@ -258,7 +266,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
     }
     public void actionPerformed1(ActionEvent e)
     {
-        if (player.lives> 0 && !isPaused) {
+        if (player.lives> 0 && running) {
             aliens.addElement(new NormalAlien(random.nextInt(1300)+300, 20));
             Timer randomTimer = new Timer(random.nextInt(2000) + 300, new ActionListener() {
                 @Override
@@ -296,15 +304,15 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             aliens.addElement(new NormalAlien(20, 20));
             return;
         }
-        if (isPaused == false && player.lives> 0 && e.getKeyCode() == KeyEvent.VK_ESCAPE){
+        if (!running && player.lives> 0 && e.getKeyCode() == KeyEvent.VK_ESCAPE){
 
-            isPaused = true;
+            running = true;
         }
         else if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
         {
-            isPaused = false;
+            running = false;
         }
-        System.out.println(isPaused);
+        System.out.println(running);
 
 
     }
