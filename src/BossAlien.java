@@ -4,7 +4,7 @@ public class BossAlien extends Alien{
     }
 
     int getMaxHP(){return level + 5;}
-    int getSpeed(){return 7;}
+    int getSpeed(){return 4;}
     int getSpriteSize(){return 100;}
     String getSprite(){return "alien3.gif";}
     Direction getDirection(){

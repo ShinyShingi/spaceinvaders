@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Random;
 
 public abstract class Alien extends Rectangle {
     abstract int getMaxHP();
@@ -46,7 +47,7 @@ public abstract class Alien extends Rectangle {
 
     public void move() {
 
-        if (direction == Direction.RIGHT) {
+        /*if (direction == Direction.RIGHT) {
             x = x + speed;
             if (x > 1280) {
                 direction = Direction.LEFT;
@@ -59,8 +60,24 @@ public abstract class Alien extends Rectangle {
                 direction = Direction.RIGHT;
                 y = y + 50;
             }
+        }*/
+        if (direction == Direction.DOWN){
+            y = y + speed;
         }
-
+        if (direction == Direction.RIGHT) {
+            x = x + speed;
+            if (x > 1280) {
+                direction = Direction.LEFT;
+                y = y + 2;
+            }
+        }
+        if (direction == Direction.LEFT) {
+            x = x - speed;
+            if (x < 30) {
+                direction = Direction.RIGHT;
+                y = y + 2;
+            }
+        }
     }
 
     public void playDeathAnimation() {

@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class AdvancedAlien extends Alien {
     AdvancedAlien(int x, int y) {
         super(x, y);
@@ -6,7 +8,9 @@ public class AdvancedAlien extends Alien {
         return level + 1;
     }
     int getSpeed() {
-        return 6;
+        Random rand = new Random();
+        int speed = rand.nextInt(6-1)+1;
+        return speed;
     }
     int getSpriteSize() {
         return 50;
@@ -15,7 +19,7 @@ public class AdvancedAlien extends Alien {
         return "alien2.gif";
     }
     Direction getDirection(){
-        return Direction.RIGHT;
+        return Direction.DOWN;
     }
 
 }

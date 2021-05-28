@@ -17,7 +17,7 @@ public class SpaceShip extends Rectangle
         this.y          = y;
         this.width      = 50;
         this.height     = 50;
-        speed = 8;
+        speed = 9;
         lives = 3;
         pic = Toolkit.getDefaultToolkit().getImage(getClass().getResource("shipanimated.gif"));
     }

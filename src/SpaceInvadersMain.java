@@ -62,7 +62,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             public void actionPerformed (ActionEvent Boss)
             {
                 if (player.lives> 0)
-                    aliens.addElement(new BossAlien(500, 20));
+                    aliens.addElement(new BossAlien(random.nextInt(1300)+300, 20));
 
             }
         });
@@ -72,7 +72,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             public void actionPerformed (ActionEvent adv)
             {
                 if (player.lives> 0)
-                    aliens.addElement(new AdvancedAlien(500, 20));
+                    aliens.addElement(new AdvancedAlien(random.nextInt(1300)+300, 20));
 
             }
         });
@@ -260,7 +260,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
     public void actionPerformed1(ActionEvent e)
     {
         if (player.lives> 0) {
-            aliens.addElement(new NormalAlien(20, 20));
+            aliens.addElement(new NormalAlien(random.nextInt(1300)+300, 20));
             Timer randomTimer = new Timer(random.nextInt(2000) + 300, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
