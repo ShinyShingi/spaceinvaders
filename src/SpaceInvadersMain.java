@@ -56,12 +56,12 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         timer = new Timer(2000, this);
         timer.setRepeats(false);
         timer.start();
-        BossTimer = new Timer(50000, new ActionListener(){
+        BossTimer = new Timer(5000, new ActionListener(){
             @Override
             public void actionPerformed (ActionEvent Boss)
             {
-                if (player.lives> 0 && !running)
-                    aliens.addElement(new BossAlien(random.nextInt(1300)+300, 20));
+                if (player.lives> 0 && running)
+                    aliens.addElement(new BossAlien(random.nextInt(1200)+300, 20));
 
             }
         });
@@ -168,8 +168,9 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                             score++;
                             if(score%100 == 0) {
                                 player.lives++;
+                            }
+                            if (score%20 == 0) {
                                 Alien.level++;
-
                             }
 
                         }
@@ -267,8 +268,8 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
     public void actionPerformed1(ActionEvent e)
     {
         if (player.lives> 0 && running) {
-            aliens.addElement(new NormalAlien(random.nextInt(1300)+300, 20));
-            Timer randomTimer = new Timer(random.nextInt(2000) + 300, new ActionListener() {
+            aliens.addElement(new NormalAlien(random.nextInt(1200)+300, 20));
+            Timer randomTimer = new Timer(random.nextInt(500) + 300, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     actionPerformed1(e);
@@ -312,7 +313,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         {
             running = false;
         }
-        System.out.println(running);
+        //System.out.println(running);
 
 
     }
