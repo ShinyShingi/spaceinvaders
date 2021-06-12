@@ -280,10 +280,10 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
 
         }
         if (!running) {
+            g2d.setFont(g.getFont().deriveFont(Font.BOLD, 260));
             FontMetrics fmp = g2d.getFontMetrics();
             String pause = "PAUSE";
             int d = (getWidth() - fmp.stringWidth(pause)) /2;
-            g2d.setFont(g.getFont().deriveFont(Font.BOLD, 260));
             g2d.setColor(Color.WHITE);
             g2d.drawString(pause, 230, 500);
 
