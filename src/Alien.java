@@ -22,7 +22,7 @@ public abstract class Alien extends Rectangle {
     Image pic;
     Direction direction = Direction.IDLE;
     int speed;
-    int hp;
+    static int hp;
     int size;
 
 
@@ -88,7 +88,7 @@ public abstract class Alien extends Rectangle {
         hp = Math.max(hp - 1, 0);
     }
 
-    public boolean isAlive() {
+   static public boolean isAlive() {
         return hp > 0;
     }
 }
