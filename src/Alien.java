@@ -66,7 +66,7 @@ public abstract class Alien extends Rectangle {
         }
         if (direction == Direction.RIGHT) {
             x = x + speed;
-            if (x > 1280) {
+            if (x > 1770) {
                 direction = Direction.LEFT;
                 y = y + 2;
             }

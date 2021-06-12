@@ -40,7 +40,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
     public SpaceInvadersMain()
     {
         fenster = new JFrame("SpaceInvaders");
-        fenster.setSize(1400,900);
+        fenster.setSize(1800,1200);
         fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.BLACK);
         fenster.add(this);
@@ -106,7 +106,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             while (a.hasMoreElements()) {
                 Alien alien = a.nextElement();
                 alien.move();
-                if (alien.y > 880)
+                if (alien.y > this.getHeight())
                     aliens.remove(alien);
 
                 if (player.intersects(alien)) {
