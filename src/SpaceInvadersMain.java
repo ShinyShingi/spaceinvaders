@@ -17,18 +17,12 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
     JFrame fenster;
     SpaceShip player;
 
-    private Timer timer;
-    private Thread gamethread;
-    private Timer BossTimer;
-    private Timer AdvancedTimer;
-    private Random random = new Random();
+    private final Random random = new Random();
 
 
-    Vector<Alien> aliens = new Vector<Alien>();
-    Vector<Shot> shots = new Vector<Shot>();
-    Vector<Boom> booms = new Vector<Boom>();
+    Vector<Alien> aliens = new Vector<>();
+    Vector<Shot> shots = new Vector<>();
     Image background;
-    Image boom;
     Image life;
     int score;
     private volatile boolean running = true;
@@ -48,39 +42,30 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         fenster.setVisible(true);
         fenster.addKeyListener(this);
         fenster.requestFocusInWindow();
-        // Raumschiff erzeugen
+
+
         player = new SpaceShip(500,500);
         background = Toolkit.getDefaultToolkit().getImage(getClass().getResource("back.png"));
         life       = Toolkit.getDefaultToolkit().getImage(getClass().getResource("lives.gif"));
-        // Timer erzeugen
-        //timer = new Timer(2000, this);
-        timer = new Timer(random.nextInt(500) + 300, this);
-        //timer.setRepeats(false);
+
+        Timer timer = new Timer(random.nextInt(500) + 300, this);
         timer.start();
-        BossTimer = new Timer(50000, new ActionListener(){
-            @Override
-            public void actionPerformed (ActionEvent Boss)
-            {
-                if (player.lives> 0 && running)
-                    aliens.addElement(new BossAlien(random.nextInt(1200)+300, 20));
+        Timer bossTimer = new Timer(50000, Boss -> {
+            if (player.lives > 0 && running)
+                aliens.addElement(new BossAlien(random.nextInt(1200) + 300, 20));
 
-            }
         });
-        BossTimer.start();
-        AdvancedTimer = new Timer(5000, new ActionListener(){
-            @Override
-            public void actionPerformed (ActionEvent adv)
-            {
-                if (player.lives> 0 && running)
-                    aliens.addElement(new AdvancedAlien(random.nextInt(1300)+300, 20));
+        bossTimer.start();
+        Timer advancedTimer = new Timer(5000, adv -> {
+            if (player.lives > 0 && running)
+                aliens.addElement(new AdvancedAlien(random.nextInt(1300) + 300, 20));
 
-            }
         });
-        AdvancedTimer.start();
+        advancedTimer.start();
         score = 0;
 
-        // Thread starten
-        gamethread = new Thread(this);
+
+        Thread gamethread = new Thread(this);
         gamethread.start();
 
     }
@@ -120,11 +105,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(invadersound).getAbsoluteFile());
                         invaderSoundClip.open(audioInputStream);
                         invaderSoundClip.start();
-                    } catch (UnsupportedAudioFileException s) {
-                        s.printStackTrace();
-                    } catch (LineUnavailableException s) {
-                        s.printStackTrace();
-                    } catch (IOException s) {
+                    } catch (UnsupportedAudioFileException | LineUnavailableException | IOException s) {
                         s.printStackTrace();
                     }
 
@@ -135,34 +116,27 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                 Enumeration<Shot> es = shots.elements();
                 while (es.hasMoreElements()) {
                     Shot xd = es.nextElement();
-                    if (alien.intersects(xd) && alien.isAlive()) {
+                    if (alien.intersects(xd) && Alien.isAlive()) {
                         alien.applyDamage();
                         shots.remove(xd);
-                       System.out.println(alien.hp);
-                        if (!alien.isAlive()) {
+                       System.out.println(Alien.hp);
+                        if (!Alien.isAlive()) {
 
                             alien.playDeathAnimation();
                             Timer boomTimer;
-                            boomTimer = new Timer(300, new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    aliens.remove(alien);
-                                    try {
-                                        String invadersound = "G:\\JAVA\\spaceinvaders\\pictures\\boom.wav";
-                                        Clip invaderSoundClip = AudioSystem.getClip();
-                                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(invadersound).getAbsoluteFile());
-                                        invaderSoundClip.open(audioInputStream);
-                                        invaderSoundClip.start();
-                                    } catch (UnsupportedAudioFileException s) {
-                                        s.printStackTrace();
-                                    } catch (LineUnavailableException s) {
-                                        s.printStackTrace();
-                                    } catch (IOException s) {
-                                        s.printStackTrace();
-                                    }
-
+                            boomTimer = new Timer(300, e -> {
+                                aliens.remove(alien);
+                                try {
+                                    String invadersound = "G:\\JAVA\\spaceinvaders\\pictures\\boom.wav";
+                                    Clip invaderSoundClip = AudioSystem.getClip();
+                                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(invadersound).getAbsoluteFile());
+                                    invaderSoundClip.open(audioInputStream);
+                                    invaderSoundClip.start();
+                                } catch (UnsupportedAudioFileException | LineUnavailableException | IOException s) {
+                                    s.printStackTrace();
                                 }
-                                });
+
+                            });
                             alien.direction = Direction.IDLE;
                             boomTimer.setRepeats(false);
                             boomTimer.start();
@@ -200,7 +174,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
 
                     Thread.sleep(timeToWait);
 
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
                 }
             }
             else {
@@ -285,7 +259,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             String pause = "PAUSE";
             int d = (getWidth() - fmp.stringWidth(pause)) /2;
             g2d.setColor(Color.WHITE);
-            g2d.drawString(pause, 230, 500);
+            g2d.drawString(pause, d, 500);
 
         }
 
@@ -347,11 +321,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(shootsound).getAbsoluteFile());
                 shootSoundClip.open(audioInputStream);
                 shootSoundClip.start();
-            } catch (UnsupportedAudioFileException s) {
-                s.printStackTrace();
-            } catch (LineUnavailableException s) {
-                s.printStackTrace();
-            } catch (IOException s) {
+            } catch (UnsupportedAudioFileException | LineUnavailableException | IOException s) {
                 s.printStackTrace();
             }
         }
@@ -368,190 +338,4 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         }
     }
 
-
 }
-/*import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Enumeration;
-import java.util.Vector;
-
-public class SpaceInvadersMain extends JPanel implements Runnable, ActionListener , KeyListener
-{
-    JFrame fenster;
-    SpaceShip player;
-
-    private Timer timer;
-    private Thread gamethread;
-    Vector<Alien> aliens = new Vector<Alien>();
-    Vector<Shot> shots = new Vector<Shot>();
-    Image background;
-    Image boom;
-    public static void main(String[] args)
-    {
-        new SpaceInvadersMain();
-    }
-
-    public SpaceInvadersMain()
-    {
-        fenster = new JFrame("SpaceInvaders");
-        fenster.setSize(1400,900);
-        fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBackground(Color.BLACK);
-        fenster.add(this);
-        fenster.setResizable(false);
-        fenster.setVisible(true);
-        fenster.addKeyListener(this);
-        fenster.requestFocusInWindow();
-        // Raumschiff erzeugen
-        player = new SpaceShip(500,500);
-
-        //alien = new Alien(210,20, Alien.NORMAL);
-        //Alien x = new Alien(210,20, Alien.NORMAL);
-        background = Toolkit.getDefaultToolkit().getImage(getClass().getResource("back.jpg"));
-        boom       = Toolkit.getDefaultToolkit().getImage(getClass().getResource("boom.gif"));
-        // Timer erzeugen
-        timer = new Timer(2000, this);
-        timer.start();
-        // Thread starten
-        gamethread = new Thread(this);
-        gamethread.start();
-    }
-    @Override
-    public void run()
-    {
-        long cd = (long)(1.0/60.0*1000);
-        while(true) {
-            long start = System.currentTimeMillis();
-            player.move();
-            //alien.move();
-
-
-            repaint();
-            Enumeration<Alien> a = aliens.elements();
-            while (a.hasMoreElements()) {
-                Alien alien = a.nextElement();
-                alien.move();
-                if (alien.y > 880)
-                    aliens.remove(alien);
-
-                if (player.intersects(alien)) {
-                    // lives--;
-                    player.x = 600;
-                    player.y = 600;
-                    aliens.clear();
-                }
-                Enumeration<Shot> es = shots.elements();
-                while (es.hasMoreElements()) {
-                    Shot xd = es.nextElement();
-                    if (alien.intersects(xd)) {
-
-                        aliens.remove(alien);
-                    }
-                }
-            }
-            Enumeration<Shot> es = shots.elements();
-            while (es.hasMoreElements()) {
-                Shot xd = es.nextElement();
-                xd.y = xd.y - xd.speed;
-                if (xd.y + xd.height < 0)
-                    shots.remove(xd);
-            }
-
-
-            long end = System.currentTimeMillis();
-            long diff = start - end;
-
-            long timeToWait = cd - diff;
-            if (timeToWait > 0) {
-
-                try {
-
-                    Thread.sleep(timeToWait);
-
-                } catch (InterruptedException e) {
-                }
-            }
-            else {
-                System.out.println("Time skew detected;");
-            }
-        }
-
-
-
-    }
-
-
-
-    protected void paintComponent(Graphics g)
-    {
-
-        super.paintComponent(g);
-        g.drawImage(background, 0, 0, this);
-
-        if(player != null)
-            player.draw(g,this);
-
-        Enumeration<Alien> e = aliens.elements();
-        while (e.hasMoreElements())
-        {
-           e.nextElement().draw(g, this);
-        }
-        Enumeration<Shot> itshot = shots.elements();
-        while (itshot.hasMoreElements()) {
-           Shot shot = itshot.nextElement();
-           shot.draw(g, this);
-        }
-
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        //System.out.println("Neu");
-        aliens.addElement( new Alien(20,20, Alien.NORMAL));
-        aliens.addElement(new Alien(500, 20, Alien.ADVANCED));
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_UP)
-            player.direction = SpaceShip.up;
-        if(e.getKeyCode() == KeyEvent.VK_DOWN)
-            player.direction = SpaceShip.down;
-        if(e.getKeyCode() == KeyEvent.VK_LEFT)
-            player.direction = SpaceShip.left;
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-            player.direction = SpaceShip.right;
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        player.direction = 0;
-        if(e.getKeyCode() == KeyEvent.VK_SPACE){
-            shots.add(new Shot(player.x, player.y));
-        }
-
-    }
-
-    private void moveAlien(Graphics g)
-    {
-        Enumeration<Alien> e = aliens.elements();
-        while (e.hasMoreElements())
-        {
-            Alien x = e.nextElement();
-            x.draw(g, this);
-        }
-    }
-}
-*/
