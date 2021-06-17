@@ -21,16 +21,19 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
     private Thread gamethread;
     private Timer BossTimer;
     private Timer AdvancedTimer;
+
     private Random random = new Random();
 
 
     Vector<Alien> aliens = new Vector<Alien>();
     Vector<Shot> shots = new Vector<Shot>();
     Vector<Boom> booms = new Vector<Boom>();
+    Vector<BossShot>bossShots = new Vector<BossShot>();
     Image background;
     Image boom;
     Image life;
     int score;
+    boolean bossExists = false;
     private volatile boolean running = true;
     public static void main(String[] args)
     {
@@ -106,6 +109,21 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             while (a.hasMoreElements()) {
                 Alien alien = a.nextElement();
                 alien.move();
+                if (alien instanceof BossAlien && !bossExists) {
+                    bossExists = true;
+
+                    Timer BossShotTimer;
+                    BossShotTimer = new Timer(2000, new ActionListener(){
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            System.out.println("blah");
+
+                            bossShots.add(new BossShot(alien.x+50, alien.y+100));
+                        }
+                    });
+                    BossShotTimer.start();
+                }
                 if (alien.y > this.getHeight())
                     aliens.remove(alien);
 
@@ -129,9 +147,8 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                     }
 
                 }
-                if (BossAlien.isAlive()) {
 
-                }
+
                 Enumeration<Shot> es = shots.elements();
                 while (es.hasMoreElements()) {
                     Shot xd = es.nextElement();
@@ -139,6 +156,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                         alien.applyDamage();
                         shots.remove(xd);
                        System.out.println(alien.hp);
+
                         if (!alien.isAlive()) {
 
                             alien.playDeathAnimation();
@@ -181,6 +199,15 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                     }
                 }
             }
+
+            Enumeration<BossShot> bs = bossShots.elements();
+            while (bs.hasMoreElements()) {
+                BossShot xdd = bs.nextElement();
+                xdd.y = xdd.y + xdd.speed;
+                if (xdd.y + xdd.height > this.getHeight())
+                    bossShots.remove(xdd);
+            }
+
             Enumeration<Shot> es = shots.elements();
             while (es.hasMoreElements()) {
                 Shot xd = es.nextElement();
@@ -226,6 +253,11 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         while (e.hasMoreElements())
         {
            e.nextElement().draw(g, this);
+        }
+        Enumeration<BossShot> bossshot = bossShots.elements();
+        while (bossshot.hasMoreElements()) {
+            BossShot bossShot = bossshot.nextElement();
+            bossShot.draw(g, this);
         }
 
         Enumeration<Shot> itshot = shots.elements();
