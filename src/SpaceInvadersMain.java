@@ -36,7 +36,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
     public SpaceInvadersMain()
     {
         window = new JFrame("SpaceInvaders");
-        window.setSize(1800,1200);
+        window.setSize(1800,1000);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.BLACK);
         window.add(this);
@@ -44,6 +44,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         window.setVisible(true);
         window.addKeyListener(this);
         window.requestFocusInWindow();
+
         // Ship declaration
         player = new SpaceShip(500,500);
         background = Toolkit.getDefaultToolkit().getImage(getClass().getResource("back.png"));
@@ -53,9 +54,9 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         Timer timer = new Timer(random.nextInt(500) + 300, this);
         timer.start();
         Timer bossTimer = new Timer(50000, Boss -> {
-            if (player.lives > 0 && running)
+            if (player.lives > 0 && running) {
                 aliens.addElement(new BossAlien(random.nextInt(1200) + 300, 20));
-
+            }
         });
         bossTimer.start();
         Timer advancedTimer = new Timer(5000, adv -> {
@@ -93,35 +94,51 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             while (a.hasMoreElements()) {
                 Alien alien = a.nextElement();
                 alien.move();
-                if (alien instanceof BossAlien && !bossExists) {
+
+               if (alien instanceof BossAlien && !bossExists) {
                     bossExists = true;
+
 
                     Timer BossShotTimer;
                     BossShotTimer = new Timer(2000, e -> {
-                        System.out.println("blah");
+                        //System.out.println("blah");
 
                         bossShots.add(new BossShot(alien.x+50, alien.y+100));
                     });
                     BossShotTimer.start();
+                    if (player.intersects(alien)){
+                        BossShotTimer.stop();
+                    }
+
                 }
+
                 if (alien.y > this.getHeight())
                     aliens.remove(alien);
 
                 if (player.intersects(alien)) {
                     player.lives--;
-                    player.x = 600;
-                    player.y = 600;
                     aliens.clear();
+                    bossShots.clear();
                     try {
-                        String invadersound = "G:\\JAVA\\spaceinvaders\\pictures\\nooooo.wav";
+                        String invaderSound = "G:\\JAVA\\spaceinvaders\\pictures\\nooooo.wav";
                         Clip invaderSoundClip = AudioSystem.getClip();
-                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(invadersound).getAbsoluteFile());
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(invaderSound).getAbsoluteFile());
                         invaderSoundClip.open(audioInputStream);
                         invaderSoundClip.start();
                     } catch (UnsupportedAudioFileException | LineUnavailableException | IOException s) {
                         s.printStackTrace();
                     }
 
+                }
+                Enumeration<BossShot> bs = bossShots.elements();
+                while (bs.hasMoreElements()){
+                    BossShot bss = bs.nextElement();
+                    if (player.intersects(bss)){
+                        player.lives--;
+                        bossShots.clear();
+                        aliens.clear();
+
+                    }
                 }
 
 
@@ -140,9 +157,9 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                             boomTimer = new Timer(300, e -> {
                                 aliens.remove(alien);
                                 try {
-                                    String invadersound = "G:\\JAVA\\spaceinvaders\\pictures\\boom.wav";
+                                    String invaderSound = "G:\\JAVA\\spaceinvaders\\pictures\\boom.wav";
                                     Clip invaderSoundClip = AudioSystem.getClip();
-                                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(invadersound).getAbsoluteFile());
+                                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(invaderSound).getAbsoluteFile());
                                     invaderSoundClip.open(audioInputStream);
                                     invaderSoundClip.start();
                                 } catch (UnsupportedAudioFileException | LineUnavailableException | IOException s) {
@@ -156,7 +173,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
 
 
                             score++;
-                            if(score%100 == 0) {
+                            if(score%50 == 0) {
                                 player.lives++;
                             }
                             if (score%20 == 0) {
@@ -214,7 +231,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
-        g.drawImage(background, 0, 0, this);
+       /* g.drawImage(background, 0, 0, this);*/
         if(player != null)
             player.draw(g,this);
 
