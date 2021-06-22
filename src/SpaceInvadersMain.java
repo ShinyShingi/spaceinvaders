@@ -272,20 +272,20 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             String over = "GAME OVER";
             g2d.setColor(Color.RED);
             int m = (getWidth() - fmgo.stringWidth(over)) /2;
-            g2d.drawString(over, m, 400);
+            g2d.drawString(over, m, 150);
 
             g2d.setFont(new Font("Helvetica", Font.BOLD, 60));
 
             FontMetrics fms = g2d.getFontMetrics();
             String score = "Score: " + scoreString;
             int a = (this.getWidth() - fms.stringWidth(score)) /2;
-            g2d.drawString(score, a, 700);
+            g2d.drawString(score, a, 450);
 
 
             FontMetrics fml = g2d.getFontMetrics();
             String level = "Level: " + Alien.level;
             int b = (getWidth() - fml.stringWidth(level)) /2;
-            g2d.drawString(level, b, 550);
+            g2d.drawString(level, b, 300);
 
 
 
@@ -294,7 +294,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             g2d.setFont(new Font("Helvetica", Font.BOLD, 60));
             g2d.setColor(Color.WHITE);
             int c = (getWidth() - fmsp.stringWidth(space)) /2;
-            g2d.drawString(space, c, 800);
+            g2d.drawString(space, c, 600);
 
         }
         if (!running) {
@@ -303,7 +303,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             String pause = "PAUSE";
             int d = (getWidth() - fmp.stringWidth(pause)) /2;
             g2d.setColor(Color.WHITE);
-            g2d.drawString(pause, d, 500);
+            g2d.drawString(pause, d, 350);
 
         }
 
