@@ -32,14 +32,14 @@ public class SpaceShip extends Rectangle
         if(direction == down)
         {
             y = y + speed;
-            if(y >1110)
-                y = 1110;
+            if(y >720)
+                y = 720;
         }
         if(direction == right)
         {
             x = x + speed;
-            if(x >  1740)
-                x = 1740;
+            if(x >  1150)
+                x = 1150;
         }
         if(direction == left)
         {

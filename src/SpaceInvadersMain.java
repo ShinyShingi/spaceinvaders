@@ -36,7 +36,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
     public SpaceInvadersMain()
     {
         window = new JFrame("SpaceInvaders");
-        window.setSize(1800,1000);
+        window.setSize(1200,800);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.BLACK);
         window.add(this);
@@ -46,7 +46,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         window.requestFocusInWindow();
 
         // Ship declaration
-        player = new SpaceShip(500,500);
+        player = new SpaceShip(550,700);
         background = Toolkit.getDefaultToolkit().getImage(getClass().getResource("back.png"));
         life       = Toolkit.getDefaultToolkit().getImage(getClass().getResource("lives.gif"));
         // Timer declaration
@@ -55,13 +55,13 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         timer.start();
         Timer bossTimer = new Timer(50000, Boss -> {
             if (player.lives > 0 && running) {
-                aliens.addElement(new BossAlien(random.nextInt(1200) + 300, 20));
+                aliens.addElement(new BossAlien(random.nextInt(850) + 150, 20));
             }
         });
         bossTimer.start();
         Timer advancedTimer = new Timer(5000, adv -> {
             if (player.lives > 0 && running)
-                aliens.addElement(new AdvancedAlien(random.nextInt(1300) + 300, 20));
+                aliens.addElement(new AdvancedAlien(random.nextInt(850) + 150, 20));
 
         });
         advancedTimer.start();
