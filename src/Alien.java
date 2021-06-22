@@ -66,14 +66,14 @@ public abstract class Alien extends Rectangle {
         }
         if (direction == Direction.RIGHT) {
             x = x + speed;
-            if (x > 1770) {
+            if (x > 1000) {
                 direction = Direction.LEFT;
                 y = y + 2;
             }
         }
         if (direction == Direction.LEFT) {
             x = x - speed;
-            if (x < 30) {
+            if (x < 5) {
                 direction = Direction.RIGHT;
                 y = y + 2;
             }
@@ -85,7 +85,7 @@ public abstract class Alien extends Rectangle {
     }
 
     public void applyDamage() {
-        hp = Math.max(hp - 1, 0);
+        hp = Math.max(hp - level, 0);
     }
 
    static public boolean isAlive() {

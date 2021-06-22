@@ -35,7 +35,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
     public SpaceInvadersMain()
     {
         window = new JFrame("SpaceInvaders");
-        window.setSize(1800,1000);
+        window.setSize(1200,800);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.BLACK);
         window.add(this);
@@ -45,32 +45,33 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         window.requestFocusInWindow();
 
         // Ship declaration
-        player = new SpaceShip(500,500);
+        player = new SpaceShip(550,700);
         background = Toolkit.getDefaultToolkit().getImage(getClass().getResource("back.png"));
         life       = Toolkit.getDefaultToolkit().getImage(getClass().getResource("lives.gif"));
         // Timer declaration
 
         Timer timer = new Timer(random.nextInt(500) + 300, this);
         timer.start();
-        Timer bossTimer = new Timer(5000, Boss -> {
+        Timer bossTimer = new Timer(50000, Boss -> {
             if (player.lives > 0 && running) {
-                aliens.addElement(new BossAlien(random.nextInt(1200) + 300, 20));
+                aliens.addElement(new BossAlien(random.nextInt(850) + 150, 20));
             }
         });
         bossTimer.start();
         Timer advancedTimer = new Timer(5000, adv -> {
             if (player.lives > 0 && running)
-                aliens.addElement(new AdvancedAlien(random.nextInt(1300) + 300, 20));
+                aliens.addElement(new AdvancedAlien(random.nextInt(850) + 150, 20));
 
         });
         advancedTimer.start();
         score = 0;
 
         // Thread start
-        Thread gamethread = new Thread(this);
-        gamethread.start();
+        Thread gameThread = new Thread(this);
+        gameThread.start();
 
     }
+
 
 
     @Override
@@ -149,6 +150,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                         if (!Alien.isAlive()) {
                             if (alien instanceof BossAlien) {
                                 ((BossAlien)alien).die();
+                                score++;
                             }
                             alien.playDeathAnimation();
                             Timer boomTimer;
@@ -169,9 +171,8 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                             boomTimer.setRepeats(false);
                             boomTimer.start();
 
-
-                            score++;
-                            if(score%50 == 0) {
+                           score++;
+                            if(score%30 == 0) {
                                 player.lives++;
                             }
                             if (score%20 == 0) {
@@ -313,7 +314,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
       public void actionPerformed(ActionEvent e)
     {
         if (player.lives> 0 && running) {
-            aliens.addElement(new NormalAlien(random.nextInt(1200)+300, 20));
+            aliens.addElement(new NormalAlien(random.nextInt(850) + 150, 20));
         }
 
     }
@@ -333,6 +334,16 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
             player.direction = SpaceShip.left;
         if(e.getKeyCode() == KeyEvent.VK_RIGHT)
             player.direction = SpaceShip.right;
+
+        if(e.getKeyCode() == KeyEvent.VK_W)
+            player.direction = SpaceShip.up;
+        if(e.getKeyCode() == KeyEvent.VK_S)
+            player.direction = SpaceShip.down;
+        if(e.getKeyCode() == KeyEvent.VK_A)
+            player.direction = SpaceShip.left;
+        if(e.getKeyCode() == KeyEvent.VK_D)
+            player.direction = SpaceShip.right;
+
         if (player.lives== 0 && e.getKeyCode()== KeyEvent.VK_SPACE){
             player.lives = 3;
             aliens.clear();

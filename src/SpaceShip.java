@@ -32,14 +32,14 @@ public class SpaceShip extends Rectangle
         if(direction == down)
         {
             y = y + speed;
-            if(y >920)
-                y = 920;
+            if(y >710)
+                y = 710;
         }
         if(direction == right)
         {
             x = x + speed;
-            if(x >  1740)
-                x = 1740;
+            if(x >  1140)
+                x = 1140;
         }
         if(direction == left)
         {
@@ -52,7 +52,6 @@ public class SpaceShip extends Rectangle
     public  void draw (Graphics g, Component c)
     {
         g.drawImage(pic, this.x, this.y, c);
-        return;
     }
 
 }

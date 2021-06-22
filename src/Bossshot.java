@@ -21,7 +21,7 @@ class BossShot  extends Rectangle{
     }
     public void draw(Graphics g, Component c)
     {
-        g.drawImage(bossShot, this.x , this.y, c);
+        g.drawImage(bossShot, this.x, this.y + 120, c);
 
     }
 

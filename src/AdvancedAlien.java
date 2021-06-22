@@ -5,7 +5,7 @@ public class AdvancedAlien extends Alien {
         super(x, y);
     }
     int getMaxHP() {
-        return level + 1;
+        return level + 2;
     }
     int getSpeed() {
         Random rand = new Random();

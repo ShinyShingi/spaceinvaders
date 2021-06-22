@@ -7,7 +7,7 @@ public class BossAlien extends Alien{
         super(x,y);
     }
     Timer bossShotTimer;
-    int getMaxHP(){return level + 5;}
+    int getMaxHP(){return level + 6;}
     int getSpeed(){return 4;}
     int getSpriteSize(){return 100;}
     String getSprite(){return "alien3.gif";}
