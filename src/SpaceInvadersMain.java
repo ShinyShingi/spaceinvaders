@@ -231,7 +231,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
-       /* g.drawImage(background, 0, 0, this);*/
+        g.drawImage(background, 0, 0, this);
         if(player != null)
             player.draw(g,this);
 
