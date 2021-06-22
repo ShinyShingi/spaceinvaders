@@ -26,7 +26,6 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
     Image background;
     Image life;
     int score;
-    boolean bossExists = false;
     private volatile boolean running = true;
     public static void main(String[] args)
     {
@@ -53,7 +52,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
 
         Timer timer = new Timer(random.nextInt(500) + 300, this);
         timer.start();
-        Timer bossTimer = new Timer(50000, Boss -> {
+        Timer bossTimer = new Timer(5000, Boss -> {
             if (player.lives > 0 && running) {
                 aliens.addElement(new BossAlien(random.nextInt(1200) + 300, 20));
             }
@@ -95,20 +94,10 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                 Alien alien = a.nextElement();
                 alien.move();
 
-               if (alien instanceof BossAlien && !bossExists) {
-                    bossExists = true;
+               if (alien instanceof BossAlien) {
 
+                   ((BossAlien)alien).attack(bossShots);
 
-                    Timer BossShotTimer;
-                    BossShotTimer = new Timer(2000, e -> {
-                        //System.out.println("blah");
-
-                        bossShots.add(new BossShot(alien.x+50, alien.y+100));
-                    });
-                    BossShotTimer.start();
-                    if (player.intersects(alien)){
-                        BossShotTimer.stop();
-                    }
 
                 }
 
@@ -117,8 +106,15 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
 
                 if (player.intersects(alien)) {
                     player.lives--;
+                    Enumeration<Alien> e = aliens.elements();
+                    while (e.hasMoreElements())
+                    {
+                       Alien aalien = e.nextElement();
+                       if (aalien instanceof BossAlien) {
+                           ((BossAlien)aalien).die();
+                       }
+                    }
                     aliens.clear();
-                    bossShots.clear();
                     try {
                         String invaderSound = "G:\\JAVA\\spaceinvaders\\pictures\\nooooo.wav";
                         Clip invaderSoundClip = AudioSystem.getClip();
@@ -151,7 +147,9 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                        System.out.println(Alien.hp);
 
                         if (!Alien.isAlive()) {
-
+                            if (alien instanceof BossAlien) {
+                                ((BossAlien)alien).die();
+                            }
                             alien.playDeathAnimation();
                             Timer boomTimer;
                             boomTimer = new Timer(300, e -> {
@@ -225,6 +223,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
 
 
     }
+
 
     protected void paintComponent(Graphics g)
     {
