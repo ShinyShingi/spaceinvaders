@@ -117,7 +117,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                     }
                     aliens.clear();
                     try {
-                        String invaderSound = "G:\\JAVA\\spaceinvaders\\pictures\\nooooo.wav";
+                        String invaderSound = "pictures/nooooo.wav";
                         Clip invaderSoundClip = AudioSystem.getClip();
                         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(invaderSound).getAbsoluteFile());
                         invaderSoundClip.open(audioInputStream);
@@ -157,7 +157,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
                             boomTimer = new Timer(300, e -> {
                                 aliens.remove(alien);
                                 try {
-                                    String invaderSound = "G:\\JAVA\\spaceinvaders\\pictures\\boom.wav";
+                                    String invaderSound = "pictures/boom.wav";
                                     Clip invaderSoundClip = AudioSystem.getClip();
                                     AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(invaderSound).getAbsoluteFile());
                                     invaderSoundClip.open(audioInputStream);
@@ -370,7 +370,7 @@ public class SpaceInvadersMain extends JPanel implements Runnable, ActionListene
         if(e.getKeyCode() == KeyEvent.VK_SPACE){
             shots.add(new Shot(player.x, player.y));
             try {
-                String shootsound = "G:\\JAVA\\spaceinvaders\\pictures\\shoot.wav";
+                String shootsound = "pictures/shoot.wav";
                 Clip shootSoundClip = AudioSystem.getClip();
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(shootsound).getAbsoluteFile());
                 shootSoundClip.open(audioInputStream);
